@@ -79,13 +79,14 @@ function rename(f,e){
 								$ft = $info['extension'];
 								$fs = filesize($fp);
 								
+								$r = rand(10000, 10000000); //puts random number in download link to avoid issues with cache
 								echo'
 								<tr>
 									<td>' . $i . '</td>
-									<td><a href="' . $fp . '" target="_blank">' . $fn . '</a></td>
+									<td><a href="' . $fp . '?r=' . $r . '" target="_blank">' . $fn . '</a></td>
 									<td>' . $ft . '</td>
 									<td>' . $fs . ' bytes</td>
-									<td><a class="trashBttn" href="delete_file.php?file=' . basename($fp) . '" title="delete"><a class="editBttn" href="#" onclick="rename(\'' . basename($fn) . '\',\'' . $ft . '\')" title="rename"></a><a class="downloadBttn" href="' . $fp . '" title="download" download></a></td>
+									<td><a class="trashBttn" href="delete_file.php?file=' . basename($fp) . '" title="delete"><a class="editBttn" href="#" onclick="rename(\'' . basename($fn) . '\',\'' . $ft . '\')" title="rename"></a><a class="downloadBttn" href="' . $fp . '?r=' . $r . '" title="download" download></a></td>
 								</tr>';							
 							}
 						}
