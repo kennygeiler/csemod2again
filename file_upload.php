@@ -27,13 +27,35 @@ echo $full_path;
 if(!is_dir("uploads/" . $username . "/")){
 	mkdir("uploads/".$username."/");
 }
-
-if( move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $full_path) ){
-	header("Location: files.php");
-	exit;
-}else{
-	header("Location: files.php?error=1");
-	exit;
+if(file_exists($full_path)){		//does file exist?
+	if(isset($_POST['overwrite'])){		//if so, does post variable overwrite exist? 
+		if($_POST['overwrite'] == 1){		//if so, should the file be overwritten
+			if(unlink($full_path)){				//if so, can the old file be deleted?
+				if( move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $full_path) ){		//if so, can the new file be uploaded
+					header("Location: files.php");		//success!!
+					exit;
+				}else{		//otherwise, was there an error uploading the file
+					header("Location: files.php?error=1");	
+					exit;
+				}	
+			}else{		//was there an error deleting the old file?
+				header("Location: files.php?error=1");
+			}						
+		}else{		//so the file exists but is shouldn't overwrite? Sounds like an error
+			header("Location: files.php?error=5");
+			exit;
+		}
+	}else{	//That's weird - there's no post variable for overwrite. Error!
+		header("Location: files.php?error=5");
+		exit;
+	}
+}else{//The file does not already exist
+	if( move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $full_path) ){
+		header("Location: files.php");
+		exit;
+	}else{
+		header("Location: files.php?error=1");
+		exit;
+	}
 }
- 
 ?>

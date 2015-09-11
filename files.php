@@ -33,7 +33,10 @@ function rename(f,e){
 			echo 'alert("There was an error deleting your file!");';
 		}else if($error == 4){
 			echo 'alert("There was an error renaming your file!");';
+		}else if($error == 5){
+			echo 'alert("A file already exists with that name!");';
 		}
+		
 	}
 	?>
 </script>
@@ -43,7 +46,8 @@ function rename(f,e){
 	<div class="main">
     	<h1>Hey, <?php echo $_SESSION['username'] ?>!</h1>
         <a href="logout.php" id="logOutButton">log out</a>
-        <form id="fileUpload" enctype="multipart/form-data" action="file_upload.php" method="POST">                
+        <form id="fileUpload" enctype="multipart/form-data" action="file_upload.php" method="POST">
+        	<input type="hidden" name="overwrite" id="overwrite" value="0" />                
             <div onclick="filePicker('filePicker')" class="uploadButton" id="upload_btn">choose file</div>
             <div style="width:0px; height:0px; overflow:hidden"><input type="file" value="upload" id="filePicker" name="uploadedfile" onChange="filePickerUpdate(this, 'upload_btn', 'fileUpload')"></div>
         </form>
@@ -78,7 +82,7 @@ function rename(f,e){
 								echo'
 								<tr>
 									<td>' . $i . '</td>
-									<td><a href="' . $fp . '">' . $fn . '</a></td>
+									<td><a href="' . $fp . '" target="_blank">' . $fn . '</a></td>
 									<td>' . $ft . '</td>
 									<td>' . $fs . ' bytes</td>
 									<td><a class="trashBttn" href="delete_file.php?file=' . basename($fp) . '" title="delete"><a class="editBttn" href="#" onclick="rename(\'' . basename($fn) . '\',\'' . $ft . '\')" title="rename"></a><a class="downloadBttn" href="' . $fp . '" title="download" download></a></td>

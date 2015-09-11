@@ -14,19 +14,42 @@ function filePicker(i){
 //obj is file input
 //i is id of div button
 //f is id of form
-function filePickerUpdate(obj, i, f){
+function filePickerUpdate(obj){
 	if(obj.value != "" && obj.value != null){
 		var file = obj.value;
     	var fileName = file.split("\\");
-		$("#" + i).html("Upload &ldquo;" + fileName[fileName.length-1] + "&rdquo;");
-		$("#" + i).attr('onclick', "uploadSubmit('" + f +"')");
-		$("#" + i).attr("title",'Upload "' + fileName[fileName.length-1] + '"');
-		$(".uploadButton").tooltip( "enable" );
+		checkFile(fileName[fileName.length-1]);
 	}
 }
-//f is id of form
-function uploadSubmit(f)
-{
-	wasSaved = true;
-	$("#" + f).submit();
+//returns true if the file already exists
+function checkFile(f){
+	$.ajax({
+		url: "check_file.php",
+		data: {fileName: f}, 
+		async: true,
+		method: "POST",
+		success: function(data){
+			//0=good 1=exists 2=error
+			if(data.length > 1){
+				data = 2;
+			}
+        	r = parseInt(data);
+			if(r == 1){
+				if(window.confirm("A file with this name already exists! Overwrite?")){
+					document.getElementById('overwrite').value = '1';
+					$("#fileUpload").submit();
+				}else{
+					location.reload();
+				}
+			}else if(r == 2){
+				alert("There seems to be an error uploading you file");
+			}else if(r == 0){
+				$("#fileUpload").submit();
+			}			
+    	},
+		error: function(e){
+			alert("There seems to be an error uploading your file:\n" + e);
+			location.reload();
+		}
+	});
 }
