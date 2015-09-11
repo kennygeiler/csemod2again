@@ -8,6 +8,10 @@ body{
 	padding:0;
 	margin:0;
 }
+a{
+	text-decoration:none;
+	font-family:"Roboto", sans-serif;
+}
 .loginBox{
 	background-color:#F7F7F7;
 	width:400px;
@@ -48,7 +52,7 @@ body{
 	line-height:30px;
 	font-size:20px;
 }
-#logInButton{
+#logInButton, #regButton{
 	width:100px;
 	height:40px;
 	line-height:40px;
@@ -59,8 +63,8 @@ body{
 	text-align:center;
 	font-weight:400;
 	position:relative;
-	left:150px;
-	margin:30px 0 0 0;
+	float:left;
+	margin:30px 15px 0 0;
 }
 
 .main{
@@ -71,9 +75,9 @@ body{
 	margin:10vh 20vw auto 20vw;
 	background-color:#FFFFFF;
 	border-radius:5px;
-	-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-	-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-	box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 	padding:10px;
 	border:1px solid #333;
 }
@@ -82,6 +86,7 @@ body{
 	margin:0 0 0 5%;
 	border-spacing: 0;
 	border:1px solid #428bca;
+	border-radius:5px;
 }
 .fileTable thead tr:first-child{
 	background-color: #428bca;
@@ -103,6 +108,28 @@ body{
 .fileTable td{
 	border-bottom:solid #666 1px;
 	height:30px;
+	border-right:solid 1px #CCCCCC;
+	padding:5px 10px 5px 10px;
+}
+.fileTable td:first-child{
+	text-align:center;
+	padding:5px;
+	width:30px;
+}
+.fileTable td:nth-child(3){
+	width:60px;
+}
+.fileTable td:nth-child(4){
+	width:150px;
+}
+.fileTable td:nth-child(5){
+	width:90px;
+}
+.fileTable td a{
+	color:#428bca;
+}
+.fileTable td a:hover{
+	font-weight:700;
 }
 .uploadButton{
 	background-color: #428bca;
@@ -112,7 +139,7 @@ body{
 	cursor:pointer;
 	text-align:center;
 	color: white;
-	margin: 5px;
+	margin: 5px 5px 5px 5%;
 	width: 150px;
 	text-overflow: ellipsis;
 	height:20px;
@@ -120,6 +147,54 @@ body{
 	white-space:nowrap;
 	line-height:20px;
 	font-size:14px;
+}
+.trashBttn{
+	background-image:url(includes/trash.svg);
+	background-size:cover;
+	background-position:center;
+	background-repeat:no-repeat;
+	background-color:#F20000;
+	border-radius:2px;
+	width:20px;
+	height:20px;
+	position:relative;
+	display:inline;
+	float:left;
+	cursor:pointer;
+	margin:3px;
+	border:2px solid #F20000;
+}
+.downloadBttn{
+	background-image:url(includes/download.svg);
+	background-size:cover;
+	background-position:center;
+	background-repeat:no-repeat;
+	background-color:#428bca;
+	border-radius:2px;
+	width:20px;
+	height:20px;
+	position:relative;
+	display:inline;
+	float:left;
+	cursor:pointer;
+	margin:3px;
+	border:2px solid #428bca;
+}
+.editBttn{
+	background-image:url(includes/edit.svg);
+	background-size:cover;
+	background-position:center;
+	background-repeat:no-repeat;
+	background-color:#428bca;
+	border-radius:2px;
+	width:20px;
+	height:20px;
+	position:relative;
+	display:inline;
+	float:left;
+	cursor:pointer;
+	margin:3px;
+	border:2px solid #428bca;
 }
 .infoTooltip {
     padding: 10px;

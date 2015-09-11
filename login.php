@@ -4,6 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Log In</title>    
 <link href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+function subLI(){
+	document.getElementById('logInForm').setAttribute('action','check_login.php');
+	document.getElementById('logInForm').submit();
+}
+function subRG(){
+	document.getElementById('logInForm').setAttribute('action','register.php');
+	document.getElementById('logInForm').submit();
+}
+</script>
 </head>
 <body>
 	<div class="loginBox">
@@ -19,6 +29,16 @@
 						<tr class="errorRow">
 							<td colspan="2">incorrect username!</td>
 						</tr>';
+					}else if($_GET['error'] == 2){
+						echo '
+						<tr class="errorRow">
+							<td colspan="2">you must log in to access that page!</td>
+						</tr>';
+					}else if($_GET['error'] == 3){
+						echo '
+						<tr class="errorRow">
+							<td colspan="2">that username already exists!</td>
+						</tr>';
 					}
 				}
 				?>
@@ -27,7 +47,12 @@
                     <td><input type="text" name="username" /></td>
                 </tr>
                 <tr>
-                	<td colspan="2"><div id="logInButton" onClick="document.getElementById('logInForm').submit();">Log In</div></td>
+                	<td></td>
+                    <td>
+                    	<div id="logInButton" onClick="subLI()">Log In</div>
+                    	<div id="regButton" onClick="subRG()">Register</div>
+                    </td>
+                    
                 </tr>
             </table>
         </form>

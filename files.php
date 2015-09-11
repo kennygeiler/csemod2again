@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['username'])){
-	header("Location: login.php");
+	header("Location: login.php?error=2");
 }
 ?>
 <!DOCTYPE html>
@@ -14,11 +14,34 @@ if(!isset($_SESSION['username'])){
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="includes/scripts.js"></script>
+<script type="text/javascript">
+function rename(f,e){
+	
+	var name = prompt('What would you like to rename the file?', f + '');
+	if(name != null){
+		window.location = 'rename.php?file=' + f + '.' + e + '&new=' + name + '.' + e;
+	}
+}
+	<?php
+	if(isset($_GET['error'])){
+		$error = $_GET['error'];
+		if($error == 1){
+			echo 'alert("There was an error uploading your file!");';
+		}else if($error == 2){
+			echo 'alert("There was an error deleting your file!");';
+		}else if($error == 3){
+			echo 'alert("There was an error deleting your file!");';
+		}else if($error == 4){
+			echo 'alert("There was an error renaming your file!");';
+		}
+	}
+	?>
+</script>
 </head>
 
 <body>
 	<div class="main">
-    	<h1>Hello, <?php echo $_SESSION['username'] ?></h1>
+    	<h1>Hey, <?php echo $_SESSION['username'] ?>!</h1>
         <a href="logout.php" id="logOutButton">log out</a>
         <form id="fileUpload" enctype="multipart/form-data" action="file_upload.php" method="POST">                
             <div onclick="filePicker('filePicker')" class="uploadButton" id="upload_btn">choose file</div>
@@ -28,6 +51,7 @@ if(!isset($_SESSION['username'])){
         <table class="fileTable">
         	<thead>
             	<tr>
+                	<th></th>
                 	<th>Name</th>
                     <th>Type</th>
                     <th>Size</th>
@@ -40,30 +64,36 @@ if(!isset($_SESSION['username'])){
                 $dir    = "uploads/{$username}/";
                 if (is_dir($dir)){
 					if ($dh = opendir($dir)){
+						$i = 0;
 						while (($file = readdir($dh)) !== false){
 							if(is_file($dir . $file)){
+								$i++;
 								$fp = $dir . $file;
 								$info = pathinfo($fp);
 								
-								$fn = $info['basename'];
+								$fn = basename($fp, '.' . $info['extension']);
 								$ft = $info['extension'];
 								$fs = filesize($fp);
 								
 								echo'
 								<tr>
+									<td>' . $i . '</td>
 									<td><a href="' . $fp . '">' . $fn . '</a></td>
 									<td>' . $ft . '</td>
-									<td>' . $fs . '</td>
-									<td>3</td>
-								</tr>';
+									<td>' . $fs . ' bytes</td>
+									<td><a class="trashBttn" href="delete_file.php?file=' . basename($fp) . '" title="delete"><a class="editBttn" href="#" onclick="rename(\'' . basename($fn) . '\',\'' . $ft . '\')" title="rename"></a><a class="downloadBttn" href="' . $fp . '" title="download" download></a></td>
+								</tr>';							
 							}
 						}
 						closedir($dh);
+						if($i == 0){
+							echo '<tr><td colspan="5">No files found. Click upload to add some!</td</tr>';
+						}
 					}else{
-						echo '<tr><td colspan="4">directory could not be opened</td</tr>';
+						echo '<tr><td colspan="5">Directory could not be opened</td</tr>';
 					}
                 }else{
-                    echo '<tr><td colspan="4">directory not found</td</tr>';
+                    echo '<tr><td colspan="5">Directory could not be found</td</tr>';
                 }
                 ?>
             </tbody>
